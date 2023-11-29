@@ -12,7 +12,7 @@ import { useEffect, useRef } from 'react'
 
 export default function ThreeScene() {
   const model = useGLTF('/models/cartoon.glb')
-  const modelRef = useRef()
+  const modelRef = useRef<THREE.Mesh>()
   const directionalLightRef = useRef<DirectionalLight>(null!)
 
   const tiltAngle = 23.5 * (Math.PI / 180) // Earth's axial tilt
