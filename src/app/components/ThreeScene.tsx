@@ -16,23 +16,30 @@ export default function ThreeScene() {
   const directionalLightRef = useRef<DirectionalLight>(null!)
 
   useHelper(directionalLightRef, DirectionalLightHelper, 1, 'red')
+
+  const modelRef = useRef()
+
+  useFrame(() => {
+    if (modelRef.current) {
+      modelRef.current.rotation.y += 0.01 // Adjust the rotation speed as needed
+    }
+  })
+
   return (
     <>
       <ambientLight intensity={0.4} />
-      {/* <pointLight ref={pointLightRef} position={[1, 0, 0]} /> */}
-      {/* <pointLight position={[1, 0, 0]} /> */}
       <directionalLight
         ref={directionalLightRef}
         position={[5, 0, 0]}
         intensity={7}
       />
-      <primitive object={model.scene} position={[0, -1, 0]} />
+      <primitive ref={modelRef} object={model.scene} position={[0, -1, 0]} />
       <Stars
-        radius={10}
-        depth={50}
+        radius={200}
+        depth={5}
         count={9000}
         factor={6}
-        saturation={10}
+        saturation={1}
         fade
         speed={1}
       />
