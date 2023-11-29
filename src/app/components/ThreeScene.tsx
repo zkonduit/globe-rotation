@@ -6,9 +6,16 @@ import {
   DirectionalLightHelper,
   PointLightHelper,
 } from 'three'
-import { OrbitControls, Stars, useGLTF, useHelper } from '@react-three/drei'
+import {
+  Float,
+  OrbitControls,
+  Stars,
+  useGLTF,
+  useHelper,
+} from '@react-three/drei'
 import { useEffect, useRef } from 'react'
 import hub from '@ezkljs/hub'
+import { parse } from 'path'
 // import ThreeScene from './components/ThreeScene'
 
 export default function ThreeScene() {
@@ -49,6 +56,8 @@ export default function ThreeScene() {
   useEffect(() => {
     console.log('useEffect')
     ;(async () => {
+      // let v1: any = ['1.0', '0.0', '0.0', '1.0']
+      // let v2 = ['1.0', '0.8', '-0.85', '1.0']
       console.log('async useEffect')
       const artifactId = '8c8791df-3f10-4d16-9774-f7e008a5cc7c'
       // const input = { input_data: [['1.0', '0.0', '0.0', '1.0']] }
@@ -80,8 +89,37 @@ export default function ThreeScene() {
 
       console.log('outside', resp)
 
-      // const id = initiateProofResp.id
-      // console.log('resp', resp)
+      const p = BigInt(
+        '0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001'
+      )
+
+      const lastFour = resp?.instances
+        ?.slice(-4)
+        .map((instance) => {
+          const bigInst = BigInt(instance)
+          // is negative
+          if (bigInst > BigInt(2) ** BigInt(128) - BigInt(1)) {
+            return bigInst - p
+          } else {
+            return bigInst
+          }
+        })
+        // .map((instance) => instance / BigInt(2) ** BigInt(14))
+        .map((instance) => Number(instance) / 2 ** 14)
+      console.log('lastFour', lastFour)
+
+      // const v1 = [1, 0, 0, 1]
+      // const v2 = [1, 0.8, -0.85, 1]
+
+      console.log('ge')
+      // v1 =
+      v1 = v1.map((v) => parseFloat(v))
+      console.log('v1', v1)
+      const phi = Math.acos(
+        (v1[0] * v2[0] + v1[1] * v2[1]) /
+          (Math.sqrt(v1[0] ** 2 + v1[1] ** 2) *
+            Math.sqrt(v2[0] ** 2 + v2[1] ** 2))
+      )
     })()
   }, [])
 
