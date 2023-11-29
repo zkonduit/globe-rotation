@@ -8,6 +8,7 @@ import {
 } from 'three'
 import { OrbitControls, Stars, useGLTF, useHelper } from '@react-three/drei'
 import { useEffect, useRef } from 'react'
+import hub from '@ezkljs/hub'
 // import ThreeScene from './components/ThreeScene'
 
 export default function ThreeScene() {
@@ -27,11 +28,62 @@ export default function ThreeScene() {
 
   useHelper(directionalLightRef, DirectionalLightHelper, 1, 'red')
 
-  useFrame(() => {
-    if (modelRef.current) {
-      modelRef.current.rotation.y += 0.01 // Adjust the rotation speed as needed
-    }
-  })
+  // useFrame(async () => {
+  //   const artifactId = '8c8791df-3f10-4d16-9774-f7e008a5cc7c'
+  //   const input = { input_data: [[1.0, 0.0, 0.0, 1.0]] }
+  //   const inputFile = JSON.stringify(input)
+
+  //   console.log('inputFile', inputFile)
+  //   const url = 'https://hub-staging.ezkl.xyz/graphql'
+
+  //   const resp = await hub.initiateProof({
+  //     artifactId,
+  //     inputFile,
+  //     url,
+  //   })
+  //   console.log('resp', resp)
+  //   // if (modelRef.current) {
+  //   //   modelRef.current.rotation.y += 0.01 // Adjust the rotation speed as needed
+  //   // }
+  // })
+  useEffect(() => {
+    console.log('useEffect')
+    ;(async () => {
+      console.log('async useEffect')
+      const artifactId = '8c8791df-3f10-4d16-9774-f7e008a5cc7c'
+      // const input = { input_data: [['1.0', '0.0', '0.0', '1.0']] }
+      // const inputFile = JSON.stringify(input)
+      const inputFile = `{"input_data": [[1.0, 0.0, 0.0, 1.0]]}`
+
+      console.log('inputFile', inputFile)
+      const url = 'https://hub-staging.ezkl.xyz/graphql'
+
+      const { id } = await hub.initiateProof({
+        artifactId,
+        inputFile,
+        url,
+      })
+      // console.log('initiateProofResp', initiateProofResp)
+
+      let resp = await hub.getProof({ id, url })
+      console.log('resp', resp)
+
+      while (resp.status !== 'SUCCESS') {
+        resp = await hub.getProof({ id, url })
+        console.log('resp', resp)
+
+        // if (resp.status === 'SUCCESS') {
+        //   console.log('SUCCESS')
+        //   break
+        // }
+      }
+
+      console.log('outside', resp)
+
+      // const id = initiateProofResp.id
+      // console.log('resp', resp)
+    })()
+  }, [])
 
   return (
     <>
