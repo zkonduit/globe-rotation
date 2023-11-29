@@ -12,12 +12,20 @@ import { useEffect, useRef } from 'react'
 
 export default function ThreeScene() {
   const model = useGLTF('/models/cartoon.glb')
-
+  const modelRef = useRef()
   const directionalLightRef = useRef<DirectionalLight>(null!)
 
-  useHelper(directionalLightRef, DirectionalLightHelper, 1, 'red')
+  const tiltAngle = 23.5 * (Math.PI / 180) // Earth's axial tilt
+  const sunDistance = 5 // Adjust as needed for the scale of your scene
 
-  const modelRef = useRef()
+  // Calculate sun's position
+  const sunPosition = {
+    x: sunDistance * Math.cos(tiltAngle),
+    y: sunDistance * Math.sin(tiltAngle),
+    z: 0, // Assuming Sun is positioned directly over the equator at equinox
+  }
+
+  useHelper(directionalLightRef, DirectionalLightHelper, 1, 'red')
 
   useFrame(() => {
     if (modelRef.current) {
@@ -27,10 +35,12 @@ export default function ThreeScene() {
 
   return (
     <>
+      <axesHelper args={[5]} />
+
       <ambientLight intensity={0.4} />
       <directionalLight
         ref={directionalLightRef}
-        position={[5, 0, 0]}
+        position={[sunPosition.x, sunPosition.y, sunPosition.z]}
         intensity={7}
       />
       <primitive ref={modelRef} object={model.scene} position={[0, -1, 0]} />
