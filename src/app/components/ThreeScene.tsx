@@ -35,7 +35,7 @@ export default function ThreeScene() {
 
   return (
     <>
-      <axesHelper args={[5]} />
+      {/* <axesHelper args={[5]} /> */}
 
       <ambientLight intensity={0.4} />
       <directionalLight
@@ -51,7 +51,7 @@ export default function ThreeScene() {
         factor={6}
         saturation={1}
         fade
-        speed={1}
+        speed={0.1}
       />
 
       <OrbitControls />
