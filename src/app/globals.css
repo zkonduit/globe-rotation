@@ -5,6 +5,16 @@
 body {
   height: 100vh;
 }
+
+[data-rk] {
+  height: 100%;
+}
+[data-testid='rk-connect-button'] {
+  background-color: #24d3ee !important;
+  border: white 2px solid !important;
+  /* select on data-rk */
+}
+
 /* 
 
 :root {
