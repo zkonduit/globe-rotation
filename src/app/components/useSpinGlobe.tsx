@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 
-const useSpinGlobe = (theta, verified, resetVerified) => {
+const useSpinGlobe = (
+  theta: number,
+  verified: boolean,
+  resetVerified: () => void
+) => {
   const timer = useRef<NodeJS.Timeout | null>(null)
   const ticks = useRef(0)
 
