@@ -2,21 +2,13 @@
 
 import '@rainbow-me/rainbowkit/styles.css'
 
-import {
-  ConnectButton,
-  getDefaultWallets,
-  RainbowKitProvider,
-} from '@rainbow-me/rainbowkit'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 import { Canvas } from '@react-three/fiber'
 import ThreeScene from './ThreeScene'
-import { useCallback, useRef, useState } from 'react'
+import { useState } from 'react'
 import hub from '@ezkljs/hub'
-import {
-  useContractWrite,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from 'wagmi'
+import { useContractWrite, useWaitForTransaction } from 'wagmi'
 import verifyABI from './verifier_abi.json'
 import useSpinGlobe from './useSpinGlobe'
 
