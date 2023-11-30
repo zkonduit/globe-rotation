@@ -56,14 +56,14 @@ export default function ThreeScene() {
     // while (true) {
     let v1: any = ['1.0', '0.0', '0.0', '1.0']
     // let v2 = ['1.0', '0.8', '-0.85', '1.0']
-    console.log('async useEffect')
+    // console.log('async useEffect')
     const artifactId = '8c8791df-3f10-4d16-9774-f7e008a5cc7c'
     // const input = { input_data: [['1.0', '0.0', '0.0', '1.0']] }
     // const inputFile = JSON.stringify(input)
     // const inputFile = `{"input_data": [[1.0, 0.0, 0.0, 1.0]]}`
     const inputFile = `{"input_data": [[${v1[0]}, ${v1[1]}, ${v1[2]}, ${v1[3]}]]}`
 
-    console.log('inputFile', inputFile)
+    // console.log('inputFile', inputFle)
     const url = 'https://hub-staging.ezkl.xyz/graphql'
 
     const { id } = await hub.initiateProof({
