@@ -53,8 +53,7 @@ export default function App() {
   const [position, setPosition] = useState(INITIAL_POSITION)
   const url = 'https://hub-staging.ezkl.xyz/graphql'
 
-  const theta = useSpinGlobe(dTheta, verified, () => setVerified(false))
-  console.log('theta', theta)
+  // console.log('theta', theta)
   const deScale = (instance: bigint, scale: number) =>
     Number(instance) / 2 ** scale
 
@@ -70,16 +69,6 @@ export default function App() {
       return bigInst
     }
   }
-
-  // interface CallData {
-  //   proof: string
-  //   instances: string[]
-  // }
-
-  const [calldata, setCalldata] = useState<CallData>({
-    proof: '',
-    instances: [],
-  })
 
   async function getNextPosFromHub() {
     let initialPos_str = [...position]
@@ -102,15 +91,14 @@ export default function App() {
       resp = await hub.getProof({ id, url })
     }
 
-    // Set calldata
+    console.log('resp', resp)
+
     // safeParse todo
     const calldata = callDataSchema.parse({
       proof: resp?.proof,
       instances: resp?.instances,
     })
     console.log('calldata', calldata)
-
-    setCalldata(calldata)
 
     // Get next position matrix from ZK proof instances
     const nextPos_num = resp?.instances
@@ -137,18 +125,17 @@ export default function App() {
     // new pos matrix
     const newPos_str = nextPos_num?.map((v) => String(v))
 
-    // if (!write) {
-    //   throw new Error('write is undefined')
-    // }
-    // write({ args: [resp.proof, resp.instances] })
+    if (!write) {
+      throw new Error('write is undefined')
+    }
 
-    writeToVerifier()
+    writeToVerifier(calldata)
 
     setPosition([...newPos_str])
     setDTheta(phase)
   }
 
-  function writeToVerifier() {
+  function writeToVerifier(calldata: CallData) {
     if (!write) {
       throw new Error('write is undefined')
     }
@@ -165,60 +152,16 @@ export default function App() {
     return dTheta
   }
 
-  // const spin = useCallback(async () => {
-  //   let initialPos_str = [...position]
-  //   const artifactId = '596654f8-5562-454b-a6d1-41a93a3e021b'
-  //   const inputFile = `{"input_data": [[${initialPos_str[0]}, ${initialPos_str[1]}, ${initialPos_str[2]}, ${initialPos_str[3]}]]}`
+  const [totalRotation, setTotalRotation] = useState(0)
 
-  //   const { id } = await hub.initiateProof({
-  //     artifactId,
-  //     inputFile,
-  //     url,
-  //   })
+  const theta = useSpinGlobe(
+    totalRotation,
+    setTotalRotation,
+    dTheta,
+    verified,
+    () => setVerified(false)
+  )
 
-  //   let resp = await hub.getProof({ id, url })
-
-  //   while (resp.status !== 'SUCCESS') {
-  //     await new Promise((resolve) => setTimeout(resolve, 2_000))
-  //     resp = await hub.getProof({ id, url })
-  //   }
-
-  //   const nextPos_num = resp?.instances
-  //     ?.slice(-4)
-  //     .map((instance) => feltToFloat(instance))
-  //     .map((instance) => deScale(instance, 14))
-
-  //   const initialPos_num = initialPos_str.map((v: string) => parseFloat(v))
-
-  //   if (!nextPos_num) {
-  //     throw new Error('nextPos_num is undefined')
-  //   }
-
-  //   for (let v of nextPos_num) {
-  //     if (!v) {
-  //       throw new Error('v is undefined')
-  //     }
-  //   }
-
-  //   const dTheta = Math.acos(
-  //     (initialPos_num[0] * nextPos_num[0] +
-  //       initialPos_num[1] * nextPos_num[1]) /
-  //       (Math.sqrt(initialPos_num[0] ** 2 + initialPos_num[1] ** 2) *
-  //         Math.sqrt(nextPos_num[0] ** 2 + nextPos_num[1] ** 2))
-  //   )
-
-  //   const newPos_num = nextPos_num?.map((v) => String(v))
-
-  //   if (!write) {
-  //     throw new Error('write is undefined')
-  //   }
-
-  //   write({ args: [resp.proof, resp.instances] })
-
-  //   setPosition([...newPos_num])
-
-  //   setDTheta(dTheta)
-  // }, [position, write])
   return (
     <>
       <div className='absolute top-10 left-10 bg-black  z-[100]'>

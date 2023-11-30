@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 
 const useSpinGlobe = (
+  totalRotation: number = 0,
+  setTotalRotation: (totalRotation: number) => void,
   theta: number,
   verified: boolean,
   resetVerified: () => void
 ) => {
-  console.log('theta', theta)
   const timer = useRef<NodeJS.Timeout | null>(null)
   const ticks = useRef(0)
 
   const [angle, setAngle] = useState(0)
+
+  console.log('angle', angle)
 
   useEffect(() => {
     console.log('useEffect', verified)
@@ -18,10 +21,13 @@ const useSpinGlobe = (
       timer.current = setInterval(() => {
         console.log('ticks', ticks.current)
 
-        setAngle((ticks.current * theta) / 15)
+        setAngle(totalRotation + (ticks.current * theta) / 15)
+
+        // setTotalRotation(totalRotation + theta / 15)
         if (ticks.current > 100) {
           ticks.current = 0
           clearInterval(timer.current!)
+          setTotalRotation(angle + totalRotation)
           resetVerified()
         }
         ticks.current += 1
@@ -33,7 +39,7 @@ const useSpinGlobe = (
         clearInterval(timer.current)
       }
     }
-  }, [resetVerified, theta, verified])
+  }, [resetVerified, setTotalRotation, theta, totalRotation, verified])
   console.log('angle', angle)
 
   return angle
