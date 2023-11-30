@@ -71,22 +71,12 @@ export default function ThreeScene() {
       inputFile,
       url,
     })
-    // console.log('initiateProofResp', initiateProofResp)
 
     let resp = await hub.getProof({ id, url })
-    console.log('resp', resp)
 
     while (resp.status !== 'SUCCESS') {
       resp = await hub.getProof({ id, url })
-      console.log('resp', resp)
-
-      // if (resp.status === 'SUCCESS') {
-      //   console.log('SUCCESS')
-      //   break
-      // }
     }
-
-    console.log('outside', resp)
 
     const p = BigInt(
       '0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001'
@@ -107,14 +97,19 @@ export default function ThreeScene() {
       .map((instance) => Number(instance) / 2 ** 14)
     console.log('lastFour', lastFour)
 
-    // const v1 = [1, 0, 0, 1]
-    // const v2 = [1, 0.8, -0.85, 1]
-
-    console.log('ge')
     v1 = v1.map((v: string) => parseFloat(v))
+
     const v2 = lastFour
-    // v1 = v1.map((v) => parseFloat(v))
-    console.log('v1', v1)
+    if (!v2) {
+      throw new Error('v2 is undefined')
+    }
+
+    for (let v of v2) {
+      if (!v) {
+        throw new Error('v is undefined')
+      }
+    }
+
     const phi = Math.acos(
       (v1[0] * v2[0] + v1[1] * v2[1]) /
         (Math.sqrt(v1[0] ** 2 + v1[1] ** 2) *
@@ -133,19 +128,14 @@ export default function ThreeScene() {
       }
       spin()
     }, 1_000)
-
-    // spin()
-    // }
   }, [])
-  // })
+
   useEffect(() => {
     spin()
   }, [spin])
 
   return (
     <>
-      {/* <axesHelper args={[5]} /> */}
-
       <ambientLight intensity={0.4} />
       <directionalLight
         ref={directionalLightRef}
