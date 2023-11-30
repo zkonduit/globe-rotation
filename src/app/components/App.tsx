@@ -115,7 +115,11 @@ export default function App() {
       <div className='absolute top-10 left-10 bg-black  z-[100]'>
         <ConnectButton />
       </div>
-      <Canvas flat className='h-full w-full bg-black'>
+      <Canvas
+        camera={{ position: [-3, 0, 0] }}
+        flat
+        className='h-full w-full bg-black'
+      >
         <ThreeScene
           dTheta={dTheta}
           verified={verified}

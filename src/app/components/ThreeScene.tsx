@@ -72,7 +72,7 @@ export default function ThreeScene({
 
   return (
     <>
-      <ambientLight intensity={1.2} />
+      <ambientLight intensity={2} />
       <directionalLight
         ref={directionalLightRef}
         position={[sunPosition.x, sunPosition.y, sunPosition.z]}
