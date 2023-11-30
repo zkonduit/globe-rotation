@@ -56,6 +56,7 @@ export default function ThreeScene() {
   useEffect(() => {
     console.log('useEffect')
     ;(async () => {
+      // while (true) {
       let v1: any = ['1.0', '0.0', '0.0', '1.0']
       // let v2 = ['1.0', '0.8', '-0.85', '1.0']
       console.log('async useEffect')
@@ -113,14 +114,24 @@ export default function ThreeScene() {
       // const v2 = [1, 0.8, -0.85, 1]
 
       console.log('ge')
-      // v1 =
+      v1 = v1.map((v) => parseFloat(v))
+      const v2 = lastFour
       // v1 = v1.map((v) => parseFloat(v))
-      // console.log('v1', v1)
-      // const phi = Math.acos(
-      //   (v1[0] * v2[0] + v1[1] * v2[1]) /
-      //     (Math.sqrt(v1[0] ** 2 + v1[1] ** 2) *
-      //       Math.sqrt(v2[0] ** 2 + v2[1] ** 2))
-      // )
+      console.log('v1', v1)
+      const phi = Math.acos(
+        (v1[0] * v2[0] + v1[1] * v2[1]) /
+          (Math.sqrt(v1[0] ** 2 + v1[1] ** 2) *
+            Math.sqrt(v2[0] ** 2 + v2[1] ** 2))
+      )
+
+      console.log('phi', phi)
+
+      if (modelRef.current) {
+        modelRef.current.rotation.y += phi // Adjust the rotation speed as needed
+      }
+
+      v1 = v2?.map((v) => String(v))
+      // }
     })()
   }, [])
 
