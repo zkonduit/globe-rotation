@@ -1,32 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
 
-const useSpinGlobe = (
-  // totalRotation: number = 0,
-  // setTotalRotation: (totalRotation: number) => void,
-  theta: number,
-  verified: boolean,
-  resetVerified: () => void
-) => {
+const useSpinGlobe = (theta, verified, resetVerified) => {
   const timer = useRef<NodeJS.Timeout | null>(null)
   const ticks = useRef(0)
 
   const [angle, setAngle] = useState(0)
-  console.log('angle', angle)
 
   useEffect(() => {
     if (verified) {
       timer.current = setInterval(() => {
-        setAngle((ticks.current * theta) / 15)
+        const newAngle = angle + theta / 15
+        setAngle(newAngle)
 
-        console.log('ticks', ticks.current)
         if (ticks.current > 100) {
-          console.log('ticks', ticks.current)
           ticks.current = 0
-          clearInterval(timer.current!)
-          // setTotalRotation(angle)
-          resetVerified()
+          clearInterval(timer.current)
+          resetVerified() // Reset verified here
         }
-        ticks.current = ticks.current + 1
+        ticks.current += 1
       }, 100)
     }
 
@@ -35,7 +26,7 @@ const useSpinGlobe = (
         clearInterval(timer.current)
       }
     }
-  }, [theta, verified, resetVerified])
+  }, [resetVerified, theta, verified]) // Removed angle from dependencies
 
   return angle
 }
