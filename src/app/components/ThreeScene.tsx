@@ -14,6 +14,7 @@ import {
   useHelper,
 } from '@react-three/drei'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import useSpinGlobe from './useSpinGlobe'
 // import hub from '@ezkljs/hub'
 // import { parse } from 'path'
 // import ThreeScene from './components/ThreeScene'
@@ -21,11 +22,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 export default function ThreeScene({
   dTheta,
   verified,
-  setVerified,
+  resetVerified,
 }: {
   dTheta: number
   verified: boolean
-  setVerified: (verified: boolean) => void
+  resetVerified: () => void
 }) {
   const model = useGLTF('/models/cartoon.glb')
   const modelRef = useRef<THREE.Mesh>()
@@ -43,32 +44,53 @@ export default function ThreeScene({
     }),
     [tiltAngle]
   )
+
+  console.log('verified', verified)
+  const theta = useSpinGlobe(dTheta, verified, resetVerified)
+
+  modelRef.current?.rotation.set(0, theta, 0)
   // const sunPosition = {
   //   x: sunDistance * Math.cos(tiltAngle),
   //   y: sunDistance * Math.sin(tiltAngle),
   //   z: 0, // Assuming Sun is positioned directly over the equator at equinox
   // }
+  // const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  const ticks = useRef(0)
+  // const ticks = useRef(0)
+  // console.log('ticks', ticks.current)
 
-  const moveGlobe = () => {
-    if (modelRef.current && verified) {
-      modelRef.current.rotation.y += dTheta / 15
-      // setVerified(false)
+  // const moveGlobe = useCallback(() => {
+  //   console.log('ticks', ticks.current)
+  //   if (modelRef.current && verified) {
+  //     // console.log('modelRef.current', modelRef.current)
+  //     modelRef.current.rotation.y += dTheta / 15
 
-      ticks.current += 1
+  //     console.log('ticks', ticks.current)
 
-      if (ticks.current > 700) {
-        clearInterval(intervalRef.current!)
-        ticks.current = 0
-        setVerified(false)
-      }
-    }
-  }
+  //     if (ticks.current > 100) {
+  //       console.log('ticks', ticks.current)
+  //       setVerified(false)
+  //       ticks.current = 0
+  //       clearInterval(intervalRef.current!)
+  //     }
 
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  //     ticks.current += 1
+  //   }
+  // }, [dTheta, setVerified, verified, ticks, intervalRef])
 
-  intervalRef.current = setInterval(moveGlobe, 10)
+  // useEffect(() => {
+  //   if (verified) {
+  //     intervalRef.current = setInterval(moveGlobe, 10)
+  //   }
+
+  //   return () => {
+  //     if (intervalRef.current) {
+  //       clearInterval(intervalRef.current)
+  //     }
+  //   }
+  // }, [moveGlobe, verified]) // Dependency array includes 'verified'
+
+  // intervalRef.current = setInterval(moveGlobe, 10)
 
   return (
     <>

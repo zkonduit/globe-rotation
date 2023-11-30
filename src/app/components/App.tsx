@@ -123,7 +123,7 @@ export default function App() {
         <ThreeScene
           dTheta={dTheta}
           verified={verified}
-          setVerified={setVerified}
+          resetVerified={() => setVerified(false)}
         />
       </Canvas>
       <div className=' absolute bottom-12 w-full flex justify-center'>
