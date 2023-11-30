@@ -48,12 +48,9 @@ export default function App() {
   const INITIAL_POSITION = ['1.0', '0.0', '0.0', '1.0']
   const [dTheta, setDTheta] = useState(0)
 
-  // const totalRotation = useRef(0)
-
   const [position, setPosition] = useState(INITIAL_POSITION)
   const url = 'https://hub-staging.ezkl.xyz/graphql'
 
-  // console.log('theta', theta)
   const deScale = (instance: bigint, scale: number) =>
     Number(instance) / 2 ** scale
 
@@ -91,14 +88,11 @@ export default function App() {
       resp = await hub.getProof({ id, url })
     }
 
-    console.log('resp', resp)
-
     // safeParse todo
     const calldata = callDataSchema.parse({
       proof: resp?.proof,
       instances: resp?.instances,
     })
-    console.log('calldata', calldata)
 
     // Get next position matrix from ZK proof instances
     const nextPos_num = resp?.instances
@@ -152,15 +146,7 @@ export default function App() {
     return dTheta
   }
 
-  const [totalRotation, setTotalRotation] = useState(0)
-
-  const theta = useSpinGlobe(
-    // totalRotation,
-    // setTotalRotation,
-    dTheta,
-    verified,
-    () => setVerified(false)
-  )
+  const theta = useSpinGlobe(dTheta, verified, () => setVerified(false))
 
   return (
     <>
