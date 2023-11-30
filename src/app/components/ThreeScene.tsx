@@ -20,12 +20,12 @@ import useSpinGlobe from './useSpinGlobe'
 // import ThreeScene from './components/ThreeScene'
 
 export default function ThreeScene({
-  // theta,
+  theta,
   dTheta,
   verified,
   resetVerified,
 }: {
-  // theta: number
+  theta: number
   dTheta: number
   verified: boolean
   resetVerified: () => void

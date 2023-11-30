@@ -155,8 +155,8 @@ export default function App() {
   const [totalRotation, setTotalRotation] = useState(0)
 
   const theta = useSpinGlobe(
-    totalRotation,
-    setTotalRotation,
+    // totalRotation,
+    // setTotalRotation,
     dTheta,
     verified,
     () => setVerified(false)
