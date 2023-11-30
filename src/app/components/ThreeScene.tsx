@@ -33,7 +33,7 @@ export default function ThreeScene() {
     z: 0, // Assuming Sun is positioned directly over the equator at equinox
   }
 
-  useHelper(directionalLightRef, DirectionalLightHelper, 1, 'red')
+  // useHelper(directionalLightRef, DirectionalLightHelper, 1, 'red')
 
   // useFrame(async () => {
   //   const artifactId = '8c8791df-3f10-4d16-9774-f7e008a5cc7c'
@@ -116,7 +116,7 @@ export default function ThreeScene() {
           Math.sqrt(v2[0] ** 2 + v2[1] ** 2))
     )
 
-    console.log('phi', phi)
+    // console.log('phi', phi)
 
     v1 = v2?.map((v) => String(v))
 
@@ -127,7 +127,7 @@ export default function ThreeScene() {
         modelRef.current.rotation.y += phi
       }
       spin()
-    }, 1_000)
+    }, 1_300)
   }, [])
 
   useEffect(() => {
