@@ -33,7 +33,7 @@ const useSpinGlobe = (
         clearInterval(timer.current)
       }
     }
-  }, [theta, verified])
+  }, [resetVerified, theta, verified])
   console.log('angle', angle)
 
   return angle

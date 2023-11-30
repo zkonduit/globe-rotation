@@ -20,6 +20,7 @@ import useSpinGlobe from './useSpinGlobe'
 // import ThreeScene from './components/ThreeScene'
 
 export default function ThreeScene({
+  theta,
   dTheta,
   verified,
   resetVerified,
@@ -45,10 +46,13 @@ export default function ThreeScene({
     [tiltAngle]
   )
 
-  console.log('verified', verified)
-  const theta = useSpinGlobe(dTheta, verified, resetVerified)
+  // console.log('verified', verified)
+  // const theta = useSpinGlobe(dTheta, verified, resetVerified)
+
+  // const totalRotation = useRef(0)
 
   modelRef.current?.rotation.set(0, theta, 0)
+
   // const sunPosition = {
   //   x: sunDistance * Math.cos(tiltAngle),
   //   y: sunDistance * Math.sin(tiltAngle),
