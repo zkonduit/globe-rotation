@@ -9,16 +9,15 @@ const useSpinGlobe = (theta, verified, resetVerified) => {
   useEffect(() => {
     if (verified) {
       timer.current = setInterval(() => {
-        const newAngle = angle + theta / 15
-        setAngle(newAngle)
+        setAngle((prevAngle) => prevAngle + theta / 15)
 
-        if (ticks.current > 100) {
+        if (ticks.current > 300) {
           ticks.current = 0
-          clearInterval(timer.current)
-          resetVerified() // Reset verified here
+          clearInterval(timer.current!)
+          resetVerified()
         }
         ticks.current += 1
-      }, 100)
+      }, 10)
     }
 
     return () => {
@@ -26,7 +25,7 @@ const useSpinGlobe = (theta, verified, resetVerified) => {
         clearInterval(timer.current)
       }
     }
-  }, [resetVerified, theta, verified]) // Removed angle from dependencies
+  }, [resetVerified, theta, verified])
 
   return angle
 }
