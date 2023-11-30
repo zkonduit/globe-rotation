@@ -13,7 +13,7 @@ import {
   useGLTF,
   useHelper,
 } from '@react-three/drei'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 // import hub from '@ezkljs/hub'
 // import { parse } from 'path'
 // import ThreeScene from './components/ThreeScene'
@@ -61,10 +61,26 @@ export default function ThreeScene({
   //   //   modelRef.current.rotation.y += 0.01 // Adjust the rotation speed as needed
   //   // }
 
-  if (modelRef.current && verified) {
-    modelRef.current.rotation.y += 3 * dTheta
-    setVerified(false)
+  const ticks = useRef(0)
+
+  const moveGlobe = () => {
+    if (modelRef.current && verified) {
+      modelRef.current.rotation.y += dTheta / 15
+      // setVerified(false)
+
+      ticks.current += 1
+
+      if (ticks.current > 700) {
+        clearInterval(intervalRef.current!)
+        ticks.current = 0
+        setVerified(false)
+      }
+    }
   }
+
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+
+  intervalRef.current = setInterval(moveGlobe, 10)
 
   return (
     <>
