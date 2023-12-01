@@ -14,7 +14,6 @@ import {
   useHelper,
 } from '@react-three/drei'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import useSpinGlobe from './useSpinGlobe'
 // import hub from '@ezkljs/hub'
 // import { parse } from 'path'
 // import ThreeScene from './components/ThreeScene'

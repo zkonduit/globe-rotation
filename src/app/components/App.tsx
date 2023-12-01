@@ -10,7 +10,7 @@ import { useState } from 'react'
 import hub from '@ezkljs/hub'
 import { useContractWrite, useWaitForTransaction } from 'wagmi'
 import verifyABI from './verifier_abi.json'
-import useSpinGlobe from './useSpinGlobe'
+import useSpinGlobe from '@/app/hooks/useSpinGlobe'
 
 import { z } from 'zod'
 
