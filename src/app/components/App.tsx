@@ -146,7 +146,7 @@ export default function App() {
 
   return (
     <>
-      <div className='absolute top-10 left-10 bg-black  z-[100]'>
+      <div className='pt-10 pl-10 bg-black  z-[100]'>
         <ConnectButton />
       </div>
       <Canvas
