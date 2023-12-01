@@ -8,7 +8,7 @@ import { Canvas } from '@react-three/fiber'
 import ThreeScene from './ThreeScene'
 import { useState } from 'react'
 import hub from '@ezkljs/hub'
-import { useContractWrite, useWaitForTransaction } from 'wagmi'
+import { useContractWrite, useNetwork, useWaitForTransaction } from 'wagmi'
 import verifyABI from './verifier_abi.json'
 import useSpinGlobe from '@/app/hooks/useSpinGlobe'
 
@@ -21,10 +21,14 @@ const callDataSchema = z.object({
 
 type CallData = z.infer<typeof callDataSchema>
 
+const mainnetAddr = '0xDea05a4Af94dF6c2eb74D8e947C6A2FD77E38845'
+const testnetAddr = '0xf2607430e752cBd67bA0207b21DEe3e634b7306D'
+
 export default function App() {
+  const { chain } = useNetwork()
   const [verified, setVerified] = useState(false)
   const { write, data, isSuccess, isLoading } = useContractWrite({
-    address: '0xf2607430e752cBd67bA0207b21DEe3e634b7306D',
+    address: chain?.id === 10 ? mainnetAddr : testnetAddr,
     abi: verifyABI,
     functionName: 'verifyProof',
   })

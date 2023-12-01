@@ -2,12 +2,13 @@
 
 import { WagmiConfig, createConfig, configureChains } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
-import { optimismGoerli } from 'wagmi/chains'
+import { optimismGoerli, optimism } from 'wagmi/chains'
+// import { optimismGoerli } from 'wagmi/chains'
 
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 
 const { chains, publicClient } = configureChains(
-  [optimismGoerli],
+  [optimism, optimismGoerli],
   [publicProvider()]
 )
 
