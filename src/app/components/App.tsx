@@ -150,7 +150,7 @@ export default function App() {
         <ConnectButton />
       </div>
       <Canvas
-        camera={{ position: [-3, 0, 0] }}
+        camera={{ position: [3, 0, 3] }}
         flat
         className='h-full w-full bg-black'
       >
